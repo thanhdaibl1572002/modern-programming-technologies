@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import currency from 'currency.js'
 import Code from './Code'
 
 const App = () => {
 
-  const currencyFormatter = (value) => new Intl.NumberFormat({ style: 'currency' }).format(value.toFixed(4))
-  const convertToNumber = (currencyString) => parseFloat(currencyString.toString().replace(/\./g, '').replace(',', '.'))
-
   const [currencies, setCurrencies] = useState({
     date: '',
-    rates: [{ name: 'AED', rate: 3.97866 }, { name: 'AFN', rate: 79.812886 } ]
+    rates: [
+      { name: 'AED', rate: 3.97866 }, 
+      { name: 'AFN', rate: 79.812886 } 
+    ]
   })
 
   useEffect(() => {
@@ -26,40 +27,40 @@ const App = () => {
 
   const [inputName, setInputName] = useState(currencies.rates[0].name)
   const [inputRate, setInputRate] = useState(currencies.rates[0].rate)
-  const [inputValue, setInputValue] = useState(1)
+  const [inputValue, setInputValue] = useState(currency(1))
 
   const [outputName, setOutputName] = useState(currencies.rates[1].name)
   const [outputRate, setOutputRate] = useState(currencies.rates[1].rate)
-  const [outputValue, setOutputValue] = useState(currencyFormatter(outputRate / inputRate * inputValue))
+  const [outputValue, setOutputValue] = useState(currency(outputRate / inputRate * inputValue))
 
   const [searchQuery, setSearchQuery] = useState('')
 
   const handleInputChange = (e) => {
     const newInputValue = parseFloat(e.target.value)
-    const newOutputValue = outputRate / inputRate * parseFloat(e.target.value)
+    const newOutputValue = outputRate / inputRate * newInputValue
     setInputValue(newInputValue)
-    setOutputValue(newInputValue ? currencyFormatter(newOutputValue) : 0)
+    setOutputValue(currency(newOutputValue))
   }
 
   const handleOutputChange = (e) => {
     const newOutputValue = parseFloat(e.target.value)
-    const newInputValue = inputRate / outputRate * parseFloat(e.target.value)
+    const newInputValue = inputRate / outputRate * newOutputValue
     setOutputValue(newOutputValue)
-    setInputValue(newOutputValue ? currencyFormatter(newInputValue) : 0)
+    setInputValue(currency(newInputValue))
   }
 
   const handleInputSelect = (name, rate) => {
     setInputName(name)
     setInputRate(rate)
-    const newOutputValue = (outputRate / rate) * convertToNumber(inputValue)
-    setOutputValue(currencyFormatter(newOutputValue))
+    const newOutputValue = (outputRate / rate) * inputValue
+    setOutputValue(currency(newOutputValue))
   }
 
   const handleOutputSelect = (name, rate) => {
     setOutputName(name)
     setOutputRate(rate)
-    const newInputValue = (inputRate / rate) * convertToNumber(outputValue)
-    setInputValue(currencyFormatter(newInputValue))
+    const newInputValue = (inputRate / rate) * outputValue
+    setInputValue(currency(newInputValue))
   }
 
   const handleRateChange = () => {
@@ -67,7 +68,8 @@ const App = () => {
     setOutputRate(inputRate)
     setInputName(outputName)
     setOutputName(inputName)
-    setOutputValue(currencyFormatter(inputRate / outputRate * inputValue))
+    const newOutputValue = inputRate / outputRate * inputValue
+    setOutputValue(currency(newOutputValue))
   }
 
   const handleSearchChange = (e) => setSearchQuery(e.target.value.trim().toUpperCase())
@@ -78,50 +80,46 @@ const App = () => {
     <div className='d-flex flex-column align-items-center'>
       <h1 className='mb-5 fs-2'>CHUYỂN ĐỔI TIỀN TỆ</h1>
       <strong className='mb-5 fs-4 mt-2 text-center fw-normal'>
-        1 {inputName} = {(outputRate / inputRate * 1).toFixed(4)} {outputName}
+        {currency(1).toString()} {inputName} = {currency(outputRate / inputRate).toString()} {outputName}
       </strong>
       <div className='d-flex justify-content-between align-items-baseline w-100'>
         <div className='input-group'>
           <input
             inputMode='decimal'
             min={0}
-            value={inputValue || 0}
-            className='form-control rounded-0'
-            placeholder='Nhập số tiền'
+            value={isNaN(inputValue) ? 0 : inputValue}
+            className='form-control'
             onChange={handleInputChange}
           />
           <button
-            className='btn btn-dark dropdown-toggle rounded-0'
+            className='btn btn-dark dropdown-toggle'
             data-bs-toggle='dropdown'
             onClick={() => setSearchQuery('')}
           >
             {inputName}
           </button>
           <div className='dropdown'>
-            <div className='dropdown-menu rounded-0'>
+            <div className='dropdown-menu'>
               <div className='input-group p-2'>
                 <input
                   type='text'
-                  className='form-control rounded-0'
+                  className='form-control'
                   placeholder='Tìm kiếm tiền tệ'
                   value={searchQuery}
                   onChange={handleSearchChange}
                 />
               </div>
               <ul className='overflow-y-scroll m-2 p-0' style={{ width: '200px', height: '190px' }}>
-                {newRates.length > 0 ? (
-                  newRates.map(item => (
-                    <li
-                      key={item.name}
-                      className='dropdown-item'
-                      onClick={() => handleInputSelect(item.name, item.rate)}
-                    >
-                      {item.name}
-                    </li>
-                  ))
-                ) : (
-                  <li>Không tìm thấy tiền tệ</li>
-                )}
+                {newRates.map(item => (
+                  <li
+                    key={item.name}
+                    className='dropdown-item'
+                    onClick={() => handleInputSelect(item.name, item.rate)}
+                  >
+                    {item.name}
+                  </li>
+                ))}
+                {newRates.length === 0 && <li>Không tìm thấy tiền tệ</li>}
               </ul>
             </div>
           </div>
@@ -136,43 +134,39 @@ const App = () => {
           <input
             inputMode='decimal'
             min={0}
-            value={outputValue || 0}
-            className='form-control rounded-0'
-            placeholder='Nhập số tiền'
+            value={isNaN(outputValue) ? 0 : outputValue}
+            className='form-control'
             onChange={handleOutputChange}
           />
           <button
-            className='btn btn-dark dropdown-toggle rounded-0'
+            className='btn btn-dark dropdown-toggle'
             data-bs-toggle='dropdown'
             onClick={() => setSearchQuery('')}
           >
             {outputName}
           </button>
           <div className='dropdown'>
-            <div className='dropdown-menu rounded-0'>
+            <div className='dropdown-menu'>
               <div className='input-group p-2'>
                 <input
                   type='text'
-                  className='form-control rounded-0'
+                  className='form-control'
                   placeholder='Tìm kiếm tiền tệ'
                   value={searchQuery}
                   onChange={handleSearchChange}
                 />
               </div>
               <ul className='overflow-y-scroll m-2 p-0' style={{ width: '200px', height: '190px' }}>
-                {newRates.length > 0 ? (
-                  newRates.map(item => (
-                    <li
-                      key={item.name}
-                      className='dropdown-item'
-                      onClick={() => handleOutputSelect(item.name, item.rate)}
-                    >
-                      {item.name}
-                    </li>
-                  ))
-                ) : (
-                  <li>Không tìm thấy tiền tệ</li>
-                )}
+                {newRates.map(item => (
+                  <li
+                    key={item.name}
+                    className='dropdown-item'
+                    onClick={() => handleOutputSelect(item.name, item.rate)}
+                  >
+                    {item.name}
+                  </li>
+                ))}
+                {newRates.length === 0 && <li>Không tìm thấy tiền tệ</li>}
               </ul>
             </div>
           </div>
