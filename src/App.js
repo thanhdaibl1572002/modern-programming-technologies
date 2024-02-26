@@ -14,15 +14,12 @@ const App = () => {
   })
 
   useEffect(() => {
+    const API = 'https://asia-southeast1-annular-splice-412115.cloudfunctions.net/mpt-function'
     const getCurrencies = async () => {
-      try {
-        const response = await axios.post('https://asia-southeast1-annular-splice-412115.cloudfunctions.net/mpt-function')
-        setCurrencies(response.data)
-      } catch (error) {
-        console.error(error)
-      }
+      const response = await axios.post(API)
+      setCurrencies(response.data)
     }
-    getCurrencies()
+    getCurrencies().catch(e => console.error(e))
   }, [])
 
   const [inputName, setInputName] = useState(currencies.rates[0].name)
