@@ -85,111 +85,111 @@ const Code = () => {
 
         return (
             <div className='d-flex flex-column align-items-center'>
-            <h1 className='mb-5 fs-2'>CHUYỂN ĐỔI TIỀN TỆ</h1>
-            <strong className='mb-5 fs-4 mt-2 text-center fw-normal'>
-                1 {inputName} = {(outputRate / inputRate * 1).toFixed(4)} {outputName}
-            </strong>
-            <div className='d-flex justify-content-between align-items-baseline w-100'>
-                <div className='input-group'>
-                    <input
-                        inputMode='decimal'
-                        min={0}
-                        value={inputValue || 0}
-                        className='form-control rounded-0'
-                        placeholder='Nhập số tiền'
-                        onChange={handleInputChange}
-                    />
-                    <button
-                        className='btn btn-dark dropdown-toggle rounded-0'
-                        data-bs-toggle='dropdown'
-                        onClick={() => setSearchQuery('')}
-                    >
-                        {inputName}
-                    </button>
-                    <div className='dropdown'>
-                        <div className='dropdown-menu rounded-0'>
-                            <div className='input-group p-2'>
-                                <input
-                                    type='text'
-                                    className='form-control rounded-0'
-                                    placeholder='Tìm kiếm tiền tệ'
-                                    value={searchQuery}
-                                    onChange={handleSearchChange}
-                                />
+                <h1 className='mb-5 fs-2'>CHUYỂN ĐỔI TIỀN TỆ</h1>
+                <strong className='mb-5 fs-4 mt-2 text-center fw-normal'>
+                    1 {inputName} = {(outputRate / inputRate * 1).toFixed(4)} {outputName}
+                </strong>
+                <div className='d-flex justify-content-between align-items-baseline w-100'>
+                    <div className='input-group'>
+                        <input
+                            inputMode='decimal'
+                            min={0}
+                            value={inputValue || 0}
+                            className='form-control rounded-0'
+                            placeholder='Nhập số tiền'
+                            onChange={handleInputChange}
+                        />
+                        <button
+                            className='btn btn-dark dropdown-toggle rounded-0'
+                            data-bs-toggle='dropdown'
+                            onClick={() => setSearchQuery('')}
+                        >
+                            {inputName}
+                        </button>
+                        <div className='dropdown'>
+                            <div className='dropdown-menu rounded-0'>
+                                <div className='input-group p-2'>
+                                    <input
+                                        type='text'
+                                        className='form-control rounded-0'
+                                        placeholder='Tìm kiếm tiền tệ'
+                                        value={searchQuery}
+                                        onChange={handleSearchChange}
+                                    />
+                                </div>
+                                <ul className='overflow-y-scroll m-2 p-0' style={{ width: '200px', height: '190px' }}>
+                                    {newRates.length > 0 ? (
+                                        newRates.map(item => (
+                                            <li
+                                                key={item.name}
+                                                className='dropdown-item'
+                                                onClick={() => handleInputSelect(item.name, item.rate)}
+                                            >
+                                                {item.name}
+                                            </li>
+                                        ))
+                                    ) : (
+                                        <li>Không tìm thấy tiền tệ</li>
+                                    )}
+                                </ul>
                             </div>
-                            <ul className='overflow-y-scroll m-2 p-0' style={{ width: '200px', height: '190px' }}>
-                                {newRates.length > 0 ? (
-                                    newRates.map(item => (
-                                        <li
-                                            key={item.name}
-                                            className='dropdown-item'
-                                            onClick={() => handleInputSelect(item.name, item.rate)}
-                                        >
-                                            {item.name}
-                                        </li>
-                                    ))
-                                ) : (
-                                    <li>Không tìm thấy tiền tệ</li>
-                                )}
-                            </ul>
+                        </div>
+                    </div>
+                    <button 
+                        className='btn btn-outline-light rounded-0 text-dark ms-3 me-3'
+                        onClick={handleRateChange}
+                    >
+                        <i className='bi bi-arrow-left-right' />
+                    </button>
+                    <div className='input-group'>
+                        <input
+                            inputMode='decimal'
+                            min={0}
+                            value={outputValue || 0}
+                            className='form-control rounded-0'
+                            placeholder='Nhập số tiền'
+                            onChange={handleOutputChange}
+                        />
+                        <button
+                            className='btn btn-dark dropdown-toggle rounded-0'
+                            data-bs-toggle='dropdown'
+                            onClick={() => setSearchQuery('')}
+                        >
+                            {outputName}
+                        </button>
+                        <div className='dropdown'>
+                            <div className='dropdown-menu rounded-0'>
+                                <div className='input-group p-2'>
+                                    <input
+                                        type='text'
+                                        className='form-control rounded-0'
+                                        placeholder='Tìm kiếm tiền tệ'
+                                        value={searchQuery}
+                                        onChange={handleSearchChange}
+                                    />
+                                </div>
+                                <ul className='overflow-y-scroll m-2 p-0' style={{ width: '200px', height: '190px' }}>
+                                    {newRates.length > 0 ? (
+                                        newRates.map(item => (
+                                            <li
+                                                key={item.name}
+                                                className='dropdown-item'
+                                                onClick={() => handleOutputSelect(item.name, item.rate)}
+                                            >
+                                                {item.name}
+                                            </li>
+                                        ))
+                                    ) : (
+                                        <li>Không tìm thấy tiền tệ</li>
+                                    )}
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <button 
-                    className='btn btn-outline-light rounded-0 text-dark ms-3 me-3'
-                    onClick={handleRateChange}
-                >
-                    <i className='bi bi-arrow-left-right' />
-                </button>
-                <div className='input-group'>
-                    <input
-                        inputMode='decimal'
-                        min={0}
-                        value={outputValue || 0}
-                        className='form-control rounded-0'
-                        placeholder='Nhập số tiền'
-                        onChange={handleOutputChange}
-                    />
-                    <button
-                        className='btn btn-dark dropdown-toggle rounded-0'
-                        data-bs-toggle='dropdown'
-                        onClick={() => setSearchQuery('')}
-                    >
-                        {outputName}
-                    </button>
-                    <div className='dropdown'>
-                        <div className='dropdown-menu rounded-0'>
-                            <div className='input-group p-2'>
-                                <input
-                                    type='text'
-                                    className='form-control rounded-0'
-                                    placeholder='Tìm kiếm tiền tệ'
-                                    value={searchQuery}
-                                    onChange={handleSearchChange}
-                                />
-                            </div>
-                            <ul className='overflow-y-scroll m-2 p-0' style={{ width: '200px', height: '190px' }}>
-                                {newRates.length > 0 ? (
-                                    newRates.map(item => (
-                                        <li
-                                            key={item.name}
-                                            className='dropdown-item'
-                                            onClick={() => handleOutputSelect(item.name, item.rate)}
-                                        >
-                                            {item.name}
-                                        </li>
-                                    ))
-                                ) : (
-                                    <li>Không tìm thấy tiền tệ</li>
-                                )}
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+                <p className='mt-5 text-center'>Tỉ lệ chuyển đổi được cập nhật vào ngày {currencies.date}</p>
             </div>
-            <p className='mt-5 text-center'>Tỉ lệ chuyển đổi được cập nhật vào ngày {currencies.date}</p>
-        </div>
-       )
+        )
     }
 
     export default App
