@@ -2,15 +2,17 @@ import React, { useState } from 'react'
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import jsx from 'react-syntax-highlighter/dist/esm/languages/prism/jsx'
-import  {CopyToClipboard } from 'react-copy-to-clipboard'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 SyntaxHighlighter.registerLanguage('jsx', jsx)
 
 const Code = () => {
     const codeString = `
-    import { useEffect, useState } from 'react'
-    import axios from 'axios'
+    import React, { useEffect, useState } from 'react'
+    import { Badge, Button, Card, Col, Container, Dropdown, Form, InputGroup, Row } from 'react-bootstrap'
+    import { PiArrowsLeftRight } from 'react-icons/pi'
     import currency from 'currency.js'
+    import axios from 'axios'
 
     const App = () => {
 
@@ -83,115 +85,99 @@ const Code = () => {
         const newRates = currencies.rates.filter(item => item.name.includes(searchQuery))
 
         return (
-            <div className='d-flex flex-column align-items-center'>
-                <h1 className='mb-5 fs-2'>CHUYỂN ĐỔI TIỀN TỆ</h1>
-                <strong className='mb-5 fs-4 mt-2 text-center fw-normal'>
-                    {currency(1).toString()} {inputName} = {currency(outputRate / inputRate).toString()} {outputName}
-                </strong>
-                <div className='d-flex justify-content-between align-items-baseline w-100'>
-                    <div className='input-group'>
-                        <input
-                            inputMode='decimal'
-                            min={0}
-                            value={isNaN(inputValue) ? 0 : inputValue}
-                            className='form-control'
-                            placeholder='Nhập số tiền'
-                            onChange={handleInputChange}
-                        />
-                        <button
-                            className='btn btn-dark dropdown-toggle'
-                            data-bs-toggle='dropdown'
-                            onClick={() => setSearchQuery('')}
-                        >
-                            {inputName}
-                        </button>
-                        <div className='dropdown'>
-                            <div className='dropdown-menu'>
-                                <div className='input-group p-2'>
-                                    <input
-                                        type='text'
-                                        className='form-control'
-                                        placeholder='Tìm kiếm tiền tệ'
-                                        value={searchQuery}
-                                        onChange={handleSearchChange}
+            <Container>
+                <Card>
+                    <Card.Header>
+                        <Card.Title className='fs-3'>CHUYỂN ĐỔI TIỀN TỆ</Card.Title>
+                        <Badge bg="dark">
+                            Tỉ lệ: {currency(1).toString()} {inputName} = {currency(outputRate / inputRate).toString()} {outputName}
+                        </Badge>
+                    </Card.Header>
+                    <Card.Body>
+                        <Row xs={12} md={12} lg={12} className='row-gap-2'>
+                            <Col xs={12} md={12} lg={5}>
+                                <InputGroup>
+                                    <Form.Control
+                                        inputMode='decimal'
+                                        min={0}
+                                        value={isNaN(inputValue) ? 0 : inputValue}
+                                        onChange={handleInputChange}
                                     />
-                                </div>
-                                <ul className='overflow-y-scroll m-2 p-0' style={{ width: '200px', height: '190px' }}>
-                                    {newRates.map(item => (
-                                        <li
-                                            key={item.name}
-                                            className='dropdown-item'
-                                            onClick={() => handleInputSelect(item.name, item.rate)}
-                                        >
-                                            {item.name}
-                                        </li>
-                                    ))}
-                                    {newRates.length === 0 && <li>Không tìm thấy tiền tệ</li>}
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <button 
-                        className='btn btn-outline-light text-dark ms-3 me-3'
-                        onClick={handleRateChange}
-                    >
-                        <i className='bi bi-arrow-left-right' />
-                    </button>
-                    <div className='input-group'>
-                        <input
-                            inputMode='decimal'
-                            min={0}
-                            value={isNaN(outputValue) ? 0 : outputValue}
-                            className='form-control'
-                            placeholder='Nhập số tiền'
-                            onChange={handleOutputChange}
-                        />
-                        <button
-                            className='btn btn-dark dropdown-toggle'
-                            data-bs-toggle='dropdown'
-                            onClick={() => setSearchQuery('')}
-                        >
-                            {outputName}
-                        </button>
-                        <div className='dropdown'>
-                            <div className='dropdown-menu'>
-                                <div className='input-group p-2'>
-                                    <input
-                                        type='text'
-                                        className='form-control'
-                                        placeholder='Tìm kiếm tiền tệ'
-                                        value={searchQuery}
-                                        onChange={handleSearchChange}
+                                    <InputGroup.Text className='p-1'>
+                                        <Dropdown>
+                                            <Dropdown.Toggle variant="dark">{inputName}</Dropdown.Toggle>
+                                            <Dropdown.Menu className='p-2 overflow-y-scroll' style={{ height: 250 }}>
+                                                <Form.Control
+                                                    placeholder='Tìm kiếm tiền tệ'
+                                                    value={searchQuery}
+                                                    onChange={handleSearchChange}
+                                                />
+                                                {newRates.map(item => (
+                                                    <Dropdown.Item
+                                                        key={item.name}
+                                                        onClick={() => handleInputSelect(item.name, item.rate)}
+                                                    >
+                                                        {item.name}
+                                                    </Dropdown.Item>
+                                                ))}
+                                                {newRates.length === 0 && <Dropdown.Item>Không tìm thấy tiền tệ</Dropdown.Item>}
+                                            </Dropdown.Menu>
+                                        </Dropdown>
+                                    </InputGroup.Text>
+                                </InputGroup>
+                            </Col>
+                            <Col xs={12} md={12} lg={2} className='text-center'>
+                                <Button variant="light fs-5" onClick={handleRateChange}>
+                                    <PiArrowsLeftRight />
+                                </Button>
+                            </Col>
+                            <Col xs={12} md={12} lg={5}>
+                                <InputGroup>
+                                    <Form.Control
+                                        inputMode='decimal'
+                                        min={0}
+                                        value={isNaN(outputValue) ? 0 : outputValue}
+                                        onChange={handleOutputChange}
                                     />
-                                </div>
-                                <ul className='overflow-y-scroll m-2 p-0' style={{ width: '200px', height: '190px' }}>
-                                    {newRates.map(item => (
-                                        <li
-                                            key={item.name}
-                                            className='dropdown-item'
-                                            onClick={() => handleOutputSelect(item.name, item.rate)}
-                                        >
-                                            {item.name}
-                                        </li>
-                                    ))}
-                                    {newRates.length === 0 && <li>Không tìm thấy tiền tệ</li>}
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <p className='mt-5 text-center'>Tỉ lệ chuyển đổi được cập nhật vào ngày {currencies.date}</p>
-            </div>
+                                    <InputGroup.Text className='p-1'>
+                                        <Dropdown>
+                                            <Dropdown.Toggle variant="dark">{outputName}</Dropdown.Toggle>
+                                            <Dropdown.Menu className='p-2 overflow-y-scroll' style={{ height: 250 }}>
+                                                <Form.Control
+                                                    placeholder='Tìm kiếm tiền tệ'
+                                                    value={searchQuery}
+                                                    onChange={handleSearchChange}
+                                                />
+                                                {newRates.map(item => (
+                                                    <Dropdown.Item
+                                                        key={item.name}
+                                                        className='dropdown-item'
+                                                        onClick={() => handleOutputSelect(item.name, item.rate)}
+                                                    >
+                                                        {item.name}
+                                                    </Dropdown.Item>
+                                                ))}
+                                                {newRates.length === 0 && <Dropdown.Item>Không tìm thấy tiền tệ</Dropdown.Item>}
+                                            </Dropdown.Menu>
+                                        </Dropdown>
+                                    </InputGroup.Text>
+                                </InputGroup>
+                            </Col>
+                        </Row>
+                    </Card.Body>
+                    <Card.Footer>Tỉ lệ chuyển đổi được cập nhật vào ngày {currencies.date}</Card.Footer>
+                </Card>
+            </Container>
         )
     }
 
     export default App
     `
     const [copied, setCopied] = useState(false)
-    
+
     return (
         <>
-            <button type="button" className="btn btn-primary mt-5" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            <button type="button" className="btn btn-dark mt-5" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                 XEM CODE
             </button>
             <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -200,9 +186,9 @@ const Code = () => {
                         <div className="modal-header">
                             <h1 className="modal-title fs-5" id="staticBackdropLabel">Full Code</h1>
                             <CopyToClipboard text={codeString}>
-                                <button 
-                                    type="button" 
-                                    className="btn btn-primary ms-5"
+                                <button
+                                    type="button"
+                                    className="btn btn-dark ms-5"
                                     onClick={() => {
                                         setCopied(true)
                                         setTimeout(() => setCopied(false), 1000)
