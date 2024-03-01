@@ -86,7 +86,7 @@ const Code = () => {
                       </div>
                       <div className='d-flex gap-3 mt-3'>
                         <InputGroup>
-                          <InputGroup.Text>Thời Gian (s)</InputGroup.Text>
+                          <InputGroup.Text>T.Gian (s)</InputGroup.Text>
                           <Form.Control 
                             min={0} 
                             inputMode='decimal'

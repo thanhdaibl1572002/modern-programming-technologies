@@ -37,7 +37,7 @@ const Random = () => {
 
     return () => clearInterval(intervalId)
 
-  }, [isRunning, start, end, time])
+  }, [isRunning])
   
   const handleRandom = () => setResult(Math.floor(Math.random() * (end - start + 1)) + start)
 
