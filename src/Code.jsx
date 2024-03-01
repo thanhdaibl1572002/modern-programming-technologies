@@ -8,170 +8,108 @@ SyntaxHighlighter.registerLanguage('jsx', jsx)
 
 const Code = () => {
     const codeString = `
-    import React, { useEffect, useState } from 'react'
-    import { Badge, Button, Card, Col, Container, Dropdown, Form, InputGroup, Row } from 'react-bootstrap'
-    import { PiArrowsLeftRight } from 'react-icons/pi'
-    import currency from 'currency.js'
-    import axios from 'axios'
-
-    const App = () => {
-
-        const [currencies, setCurrencies] = useState({
-            date: '',
-            rates: [
-                { name: 'AED', rate: 3.97866 }, 
-                { name: 'AFN', rate: 79.812886 } 
-            ]
-        })
-
-        useEffect(() => {
-            const API = 'https://asia-southeast1-annular-splice-412115.cloudfunctions.net/mpt-function'
-            const getCurrencies = async () => {
-              const response = await axios.post(API)
-              setCurrencies(response.data)
-            }
-            getCurrencies().catch(e => console.error(e))
-        }, [])
-
-        const [inputName, setInputName] = useState(currencies.rates[0].name)
-        const [inputRate, setInputRate] = useState(currencies.rates[0].rate)
-        const [inputValue, setInputValue] = useState(currency(1))
-
-        const [outputName, setOutputName] = useState(currencies.rates[1].name)
-        const [outputRate, setOutputRate] = useState(currencies.rates[1].rate)
-        const [outputValue, setOutputValue] = useState(currency(outputRate / inputRate * inputValue))
-
-        const [searchQuery, setSearchQuery] = useState('')
-
-        const handleInputChange = (e) => {
-            const newInputValue = parseFloat(e.target.value)
-            const newOutputValue = outputRate / inputRate * newInputValue
-            setInputValue(newInputValue)
-            setOutputValue(currency(newOutputValue))
+    import React, { useState, useEffect } from 'react'
+    import { Container, Card, Row, Col, Button, InputGroup, Form } from 'react-bootstrap'
+    
+    const Random = () => {
+      
+      const [start, setStart] = useState(0)
+      const [end, setEnd] = useState(10)
+      const [time, setTime] = useState(1)
+      const [result, setResult] = useState(0)
+      const [isRunning, setIsRunning] = useState(false)
+    
+      const getRandomNum = (start, end) => Math.floor(Math.random() * (end - start + 1)) + start
+    
+      const handleRun = () => {
+        isNaN(start) && setStart(0)
+        isNaN(end) && setEnd(0)
+        start >= end || isNaN(end) ? alert("Giá trị start/end không hợp lệ") : setIsRunning(true)
+      }
+      
+      const handleStop = () => setIsRunning(false)
+    
+      useEffect(() => {
+        let intervalId
+    
+        const run = () => {
+          let elapsedTime = 0
+          
+          intervalId = setInterval(() => {
+            setResult(getRandomNum(start, end))
+            elapsedTime += 0.1
+            elapsedTime >= time && clearInterval(intervalId) && setIsRunning(false)
+          }, 100)
         }
-        
-        const handleOutputChange = (e) => {
-            const newOutputValue = parseFloat(e.target.value)
-            const newInputValue = inputRate / outputRate * newOutputValue
-            setOutputValue(newOutputValue)
-            setInputValue(currency(newInputValue))
-        }
-        
-        const handleInputSelect = (name, rate) => {
-            setInputName(name)
-            setInputRate(rate)
-            const newOutputValue = (outputRate / rate) * inputValue
-            setOutputValue(currency(newOutputValue))
-        }
-        
-        const handleOutputSelect = (name, rate) => {
-            setOutputName(name)
-            setOutputRate(rate)
-            const newInputValue = (inputRate / rate) * outputValue
-            setInputValue(currency(newInputValue))
-        }
-        
-        const handleRateChange = () => {
-            setInputRate(outputRate)
-            setOutputRate(inputRate)
-            setInputName(outputName)
-            setOutputName(inputName)
-            const newOutputValue = inputRate / outputRate * inputValue
-            setOutputValue(currency(newOutputValue))
-        }
-
-        const handleSearchChange = (e) => setSearchQuery(e.target.value.trim().toUpperCase())
-
-        const newRates = currencies.rates.filter(item => item.name.includes(searchQuery))
-
-        return (
-            <Container>
-                <Card>
-                    <Card.Header>
-                        <Card.Title className='fs-3'>CHUYỂN ĐỔI TIỀN TỆ</Card.Title>
-                        <Badge bg="dark">
-                            Tỉ lệ: {currency(1).toString()} {inputName} = {currency(outputRate / inputRate).toString()} {outputName}
-                        </Badge>
-                    </Card.Header>
+    
+        isRunning ? run() : clearInterval(intervalId)
+    
+        return () => clearInterval(intervalId)
+    
+      }, [isRunning, start, end, time])
+      
+      const handleRandom = () => setResult(Math.floor(Math.random() * (end - start + 1)) + start)
+    
+      return (
+        <Container>
+          <Card>
+            <Card.Header>
+              <Card.Title className='fs-3'>RANDOM</Card.Title>
+            </Card.Header>
+            <Card.Body>
+              <Row xs={12} md={12} lg={12}>
+                <Col xs={12} md={12} lg={6} className='text-center'>
+                  <strong style={{ fontSize: 150 }}>{result}</strong>
+                </Col>
+                <Col xs={12} md={12} lg={6}>
+                  <Card>
                     <Card.Body>
-                        <Row xs={12} md={12} lg={12} className='row-gap-2'>
-                            <Col xs={12} md={12} lg={5}>
-                                <InputGroup>
-                                    <Form.Control
-                                        inputMode='decimal'
-                                        min={0}
-                                        value={isNaN(inputValue) ? 0 : inputValue}
-                                        onChange={handleInputChange}
-                                    />
-                                    <InputGroup.Text className='p-1'>
-                                        <Dropdown>
-                                            <Dropdown.Toggle variant="dark">{inputName}</Dropdown.Toggle>
-                                            <Dropdown.Menu className='p-2 overflow-y-scroll' style={{ height: 250 }}>
-                                                <Form.Control
-                                                    placeholder='Tìm kiếm tiền tệ'
-                                                    value={searchQuery}
-                                                    onChange={handleSearchChange}
-                                                />
-                                                {newRates.map(item => (
-                                                    <Dropdown.Item
-                                                        key={item.name}
-                                                        onClick={() => handleInputSelect(item.name, item.rate)}
-                                                    >
-                                                        {item.name}
-                                                    </Dropdown.Item>
-                                                ))}
-                                                {newRates.length === 0 && <Dropdown.Item>Không tìm thấy tiền tệ</Dropdown.Item>}
-                                            </Dropdown.Menu>
-                                        </Dropdown>
-                                    </InputGroup.Text>
-                                </InputGroup>
-                            </Col>
-                            <Col xs={12} md={12} lg={2} className='text-center'>
-                                <Button variant="light fs-5" onClick={handleRateChange}>
-                                    <PiArrowsLeftRight />
-                                </Button>
-                            </Col>
-                            <Col xs={12} md={12} lg={5}>
-                                <InputGroup>
-                                    <Form.Control
-                                        inputMode='decimal'
-                                        min={0}
-                                        value={isNaN(outputValue) ? 0 : outputValue}
-                                        onChange={handleOutputChange}
-                                    />
-                                    <InputGroup.Text className='p-1'>
-                                        <Dropdown>
-                                            <Dropdown.Toggle variant="dark">{outputName}</Dropdown.Toggle>
-                                            <Dropdown.Menu className='p-2 overflow-y-scroll' style={{ height: 250 }}>
-                                                <Form.Control
-                                                    placeholder='Tìm kiếm tiền tệ'
-                                                    value={searchQuery}
-                                                    onChange={handleSearchChange}
-                                                />
-                                                {newRates.map(item => (
-                                                    <Dropdown.Item
-                                                        key={item.name}
-                                                        className='dropdown-item'
-                                                        onClick={() => handleOutputSelect(item.name, item.rate)}
-                                                    >
-                                                        {item.name}
-                                                    </Dropdown.Item>
-                                                ))}
-                                                {newRates.length === 0 && <Dropdown.Item>Không tìm thấy tiền tệ</Dropdown.Item>}
-                                            </Dropdown.Menu>
-                                        </Dropdown>
-                                    </InputGroup.Text>
-                                </InputGroup>
-                            </Col>
-                        </Row>
+                      <div className='d-flex gap-3 mt-3'>
+                        <InputGroup>
+                          <InputGroup.Text>Từ</InputGroup.Text>
+                          <Form.Control 
+                            inputMode='decimal'
+                            min={0} 
+                            value={start || 0}
+                            onChange={(e) => setStart(parseInt(e.target.value))} 
+                          />
+                        </InputGroup>
+                        <InputGroup>
+                          <InputGroup.Text>Đến</InputGroup.Text>
+                          <Form.Control 
+                            min={1} 
+                            inputMode='decimal'
+                            value={end || 0}
+                            onChange={(e) => setEnd(parseInt(e.target.value))} 
+                          />
+                        </InputGroup>
+                      </div>
+                      <div className='d-flex gap-3 mt-3'>
+                        <InputGroup>
+                          <InputGroup.Text>Thời Gian (s)</InputGroup.Text>
+                          <Form.Control 
+                            min={0} 
+                            inputMode='decimal'
+                            defaultValue={time} 
+                            onChange={(e) => setTime(parseInt(e.target.value))} 
+                          />
+                        </InputGroup>
+                        <Button variant='primary' onClick={handleRun}>Chạy</Button>
+                        <Button variant='danger' onClick={handleStop}>Dừng</Button>
+                      </div>
                     </Card.Body>
-                    <Card.Footer>Tỉ lệ chuyển đổi được cập nhật vào ngày {currencies.date}</Card.Footer>
-                </Card>
-            </Container>
-        )
+                  </Card>
+                  <Button variant='warning mt-3' onClick={handleRandom}>Lấy Số Ngẫu Nhiên ({start || 0} - {end || 0})</Button>
+                </Col>
+              </Row>
+            </Card.Body>
+            <Card.Footer>© 2024 - Các Công Nghệ Lập Trình Hiện Đại</Card.Footer>
+          </Card>
+        </Container>
+      )
     }
-
-    export default App
+    
+    export default Random
     `
     const [copied, setCopied] = useState(false)
 
