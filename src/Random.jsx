@@ -96,7 +96,7 @@ const Random = () => {
                       <Form.Control 
                         min={0} 
                         inputMode='decimal'
-                        defaultValue={time} 
+                        value={time || 0}
                         onChange={(e) => setTime(parseInt(e.target.value))} 
                       />
                     </InputGroup>
