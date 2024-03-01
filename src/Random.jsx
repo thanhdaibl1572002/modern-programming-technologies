@@ -24,23 +24,29 @@ const Random = () => {
     let intervalId
 
     const run = () => {
-      let elapsedTime = 0
+      if (isRunning) {
+        let elapsedTime = 0
       
-      intervalId = setInterval(() => {
-        setResult(getRandomNum(start, end))
-        elapsedTime += 0.1
-        elapsedTime >= time && clearInterval(intervalId) && setIsRunning(false)
-      }, 100)
+        intervalId = setInterval(() => {
+          setResult(getRandomNum(start, end))
+          elapsedTime += 0.1
+          if (elapsedTime >= time) {
+            clearInterval(intervalId)
+            setIsRunning(false)
+          }
+        }, 100)
+      } 
     }
 
-    isRunning ? run() : clearInterval(intervalId)
+    run()
 
     return () => {
-      clearInterval(intervalId)
-      setIsRunning(false)
+      intervalId && clearInterval(intervalId)
     }
 
-  }, [isRunning])
+  }, [isRunning, start, end, time])
+
+  console.log(isRunning)
   
   const handleRandom = () => setResult(Math.floor(Math.random() * (end - start + 1)) + start)
 

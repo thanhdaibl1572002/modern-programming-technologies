@@ -10,6 +10,7 @@ const Code = () => {
     const codeString = `
     import React, { useState, useEffect } from 'react'
     import { Container, Card, Row, Col, Button, InputGroup, Form } from 'react-bootstrap'
+    import Code from './Code'
     
     const Random = () => {
       
@@ -33,24 +34,28 @@ const Code = () => {
         let intervalId
     
         const run = () => {
-          let elapsedTime = 0
+          if (isRunning) {
+            let elapsedTime = 0
           
-          intervalId = setInterval(() => {
-            setResult(getRandomNum(start, end))
-            elapsedTime += 0.1
-            elapsedTime >= time && clearInterval(intervalId) && setIsRunning(false)
-          }, 100)
+            intervalId = setInterval(() => {
+              setResult(getRandomNum(start, end))
+              elapsedTime += 0.1
+              if (elapsedTime >= time) {
+                clearInterval(intervalId)
+                setIsRunning(false)
+              }
+            }, 100)
+          } 
         }
     
-        isRunning ? run() : clearInterval(intervalId)
+        run()
     
         return () => {
-          clearInterval(intervalId)
-          setIsRunning(false)
+          intervalId && clearInterval(intervalId)
         }
     
-      }, [isRunning])
-      
+      }, [isRunning, start, end, time])
+    
       const handleRandom = () => setResult(Math.floor(Math.random() * (end - start + 1)) + start)
     
       return (
@@ -87,7 +92,7 @@ const Code = () => {
                           />
                         </InputGroup>
                       </div>
-                      <div className='d-flex gap-3 mt-3'>
+                      <div className='d-flex gap-3 mt-3 mb-3'>
                         <InputGroup>
                           <InputGroup.Text>T.Gian (s)</InputGroup.Text>
                           <Form.Control 
@@ -108,6 +113,7 @@ const Code = () => {
             </Card.Body>
             <Card.Footer>© 2024 - Các Công Nghệ Lập Trình Hiện Đại</Card.Footer>
           </Card>
+          <Code />
         </Container>
       )
     }
