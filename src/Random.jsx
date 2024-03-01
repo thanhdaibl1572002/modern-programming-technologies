@@ -35,7 +35,10 @@ const Random = () => {
 
     isRunning ? run() : clearInterval(intervalId)
 
-    return () => clearInterval(intervalId)
+    return () => {
+      clearInterval(intervalId)
+      setIsRunning(false)
+    }
 
   }, [isRunning])
   
