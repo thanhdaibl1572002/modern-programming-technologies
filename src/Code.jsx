@@ -54,7 +54,7 @@ const Code = () => {
         <Container>
           <Card>
             <Card.Header>
-              <Card.Title className='fs-3'>RANDOM</Card.Title>
+              <Card.Title className='fs-3'>BL RANDOM</Card.Title>
             </Card.Header>
             <Card.Body>
               <Row xs={12} md={12} lg={12}>
