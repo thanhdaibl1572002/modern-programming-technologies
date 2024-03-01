@@ -57,6 +57,14 @@ const Code = () => {
       }, [isRunning, start, end, time])
     
       const handleRandom = () => setResult(Math.floor(Math.random() * (end - start + 1)) + start)
+
+      const handleReset = () => {
+        setStart(0)
+        setEnd(10)
+        setTime(1)
+        setResult(0)
+        setIsRunning(false)
+      }
     
       return (
         <Container>

@@ -46,9 +46,15 @@ const Random = () => {
 
   }, [isRunning, start, end, time])
 
-  console.log(isRunning)
-  
   const handleRandom = () => setResult(Math.floor(Math.random() * (end - start + 1)) + start)
+
+  const handleReset = () => {
+    setStart(0)
+    setEnd(10)
+    setTime(1)
+    setResult(0)
+    setIsRunning(false)
+  }
 
   return (
     <Container>
@@ -99,7 +105,8 @@ const Random = () => {
                   </div>
                 </Card.Body>
               </Card>
-              <Button variant='warning mt-3' onClick={handleRandom}>Lấy Số Ngẫu Nhiên ({start || 0} - {end || 0})</Button>
+              <Button variant='primary mt-3' onClick={handleRandom}>Lấy Số Ngẫu Nhiên ({start || 0} - {end || 0})</Button>
+              <Button variant='danger mt-3 ms-3' onClick={handleReset}>Đặt Lại</Button>
             </Col>
           </Row>
         </Card.Body>
