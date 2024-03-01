@@ -15,6 +15,7 @@ const Random = () => {
   const handleRun = () => {
     isNaN(start) && setStart(0)
     isNaN(end) && setEnd(0)
+    isNaN(time) && setTime(0)
     start >= end || isNaN(end) ? alert("Giá trị start/end không hợp lệ") : setIsRunning(true)
   }
   
