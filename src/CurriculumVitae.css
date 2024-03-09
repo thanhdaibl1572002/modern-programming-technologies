@@ -98,7 +98,7 @@
     flex: 1;
     padding: 0 5px;
     min-width: 0;
-    color: blue;
+    color: black;
     width: 100%;
 }
 
@@ -160,6 +160,6 @@
     border: none;
     outline: none;
     width: 100%;
-    color: blue;
+    color: black;
     resize: none;
 }
