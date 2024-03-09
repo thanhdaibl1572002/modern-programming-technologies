@@ -1,8 +1,8 @@
 import React from 'react'
-import Random from './Random'
+import CurriculumVitae from './CurriculumVitae'
 
 const App = () => {
-  return <Random />
+  return <CurriculumVitae />
 }
 
 export default App
