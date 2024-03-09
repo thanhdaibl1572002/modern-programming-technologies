@@ -26,7 +26,7 @@ function CurriculumVitae() {
 
     return (
         <div className='main'>
-            <button className='btn btn-dark' onClick={handlePrint}>Print</button>
+            {/* <button className='btn btn-dark' onClick={handlePrint}>Print</button> */}
             <div className='pages' ref={printRef} style={{ rowGap: environment === 'edit' ? '15px' : '0' }}>
                 {pages.map((page, pageIndex) => (
                     <div className='page' key={pageIndex}>
