@@ -1,0 +1,37 @@
+@import '../../variables.css';
+
+._select__container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+    position: relative;
+}
+
+._select__container ._select__list {
+    position: absolute;
+    top: calc(100% + 2px);
+    left: 0;
+    width: 100%;
+    height: fit-content;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    background: var(--white-color);
+    box-shadow: var(--main-boxshadow);
+    border: var(--main-border);
+    z-index: 1000;
+    max-height: 205px;
+    overflow-y: scroll;
+}
+
+._select__container ._select__list li {
+    white-space: nowrap;
+    padding: 10px;
+    cursor: pointer;
+
+}
+
+._select__container ._select__list li:hover {
+    background: rgba(39,142,255,0.1);
+    color: var(--main-color);
+}

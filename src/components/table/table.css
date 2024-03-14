@@ -1,0 +1,121 @@
+@import '../../variables.css';
+
+._table__container {
+    width: 100%;
+    height: 420px;
+    max-width: 100%;
+    flex-direction: column;
+    row-gap: 10px;
+    border: 1px solid rgba(39,142,255, 0.2);
+    padding: 15px 10px;
+    border-radius: 5px;
+    position: relative;
+}
+
+._table__container label {
+    font-size: 12.5px;
+    text-transform: capitalize;
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
+    position: absolute;
+    z-index: 1;
+    top: -7px;
+    left: 13px;
+    padding: 1px 8px;
+    border-radius: 2px;
+}
+
+._table__container h2 {
+    text-transform: uppercase;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+._table__container ._table__content {
+    width: 100%;
+    height: 100%;
+    background: var(--white-color);
+    flex-direction: column;
+    overflow: scroll;
+}
+
+._table__container ._table__content ._table {
+    min-width: 100%;
+    width: fit-content;
+    height: fit-content;
+    position: relative;
+    flex-direction: column;
+    row-gap: 5px;
+}
+   
+._table__container ._table__content ._table table {
+    width: 100%;
+    height: fit-content;
+    border-collapse: collapse;
+    border-spacing: 0;
+    box-shadow: var(--main-boxshadow);
+    border: var(--main-border);
+}
+
+._table__container ._table__content table thead {
+    background: var(--white-color);
+    height: 40px;
+}
+
+._table__container ._table__content table thead th {
+    font-weight: 400;
+    font-size: 14.5px;
+    color: var(--main-color);
+    text-transform: capitalize;
+    border-left: 1px solid rgba(39, 142, 255, 0.2);
+    white-space: nowrap;
+}
+
+._table__container ._table__content table th {
+    padding: 8px;
+    border: var(--main-border);
+    text-align: left;
+    background: var(--white-color);
+}
+
+._table__container ._table__content table tbody tr {
+    max-width: 510px;
+}
+
+._table__container ._table__content table tbody td {
+    font-size: 13.5px;
+    white-space: nowrap;
+    border: 1px solid rgba(39, 142, 255, 0.2);
+    background: var(--white-color);
+    overflow: hidden;
+    max-width: calc(510px / 5);
+}
+
+._table__container ._table__content table tbody td input {
+    width: 100%;
+    padding: 10px 8px;
+}
+
+._table__container ._table__content:hover ._table__tool {
+    display: flex;
+}
+
+._table__container ._table__content ._table__tool {
+    padding: 3px 0;
+    position: absolute;
+    top: calc(100% - 15px);
+    right: 0;
+    column-gap: 5px;
+    z-index: 10;
+    display: none;
+}
+
+._table__container ._error {
+    font-size: 13px;
+    color: var(--red-color);
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
+    height: 12px;
+}

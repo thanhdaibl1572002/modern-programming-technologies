@@ -1,0 +1,56 @@
+@import '../../variables.css';
+
+._textarea__container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+    position: relative;
+}
+
+._textarea__container label {
+    font-size: 12.5px;
+    text-transform: capitalize;
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
+    position: absolute;
+    z-index: 1;
+    top: -7px;
+    left: 13px;
+    padding: 1px 8px;
+    border-radius: 2px;
+}
+        
+._textarea__container label svg {
+    font-size: 14px;
+}
+
+._textarea__container ._textarea {
+    position: relative;
+}
+        
+
+._textarea__container ._textarea textarea {
+    height: 45px;
+    padding: 12px;
+    font-size: 15.5px;
+    border: 1px solid rgba(39,142,255, 0.2);
+    border-radius: 8px;
+    resize: none;
+}
+
+._textarea__container ._textarea textarea::placeholder {
+    font-family: var(--main-font-family);
+    font-size: 14.5px;
+    font-weight: 400;
+    color: rgba(30, 39, 46, 0.6);
+}
+                
+._textarea__container ._error {
+    font-size: 13px;
+    color: var(--red-color);
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
+    height: 12px;
+}

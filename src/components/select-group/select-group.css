@@ -1,0 +1,45 @@
+@import '../../variables.css';
+
+._select__group__container {
+    flex-direction: column;
+    row-gap: 5px;
+    position: relative;
+}
+
+._select__group__container ._selects {
+    width: 100%;
+    border: 1px solid rgba(39,142,255, 0.2);
+    padding: 15px 10px;
+    border-radius: 5px;
+    height: fit-content;
+    flex-wrap: wrap;
+}
+
+._select__group__container ._selects label {
+    font-size: 12.5px;
+    text-transform: capitalize;
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
+    position: absolute;
+    z-index: 1;
+    top: -7px;
+    left: 13px;
+    padding: 1px 8px;
+    border-radius: 2px;
+}
+
+._select__group__container ._selects ._items {
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+._select__group__container ._error {
+    font-size: 13px;
+    color: var(--red-color);
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
+    height: 12px;
+}

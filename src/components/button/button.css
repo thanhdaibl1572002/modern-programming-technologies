@@ -1,0 +1,79 @@
+@import '../../variables.css';
+
+._button__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 10px;
+    column-gap: 5px;
+    cursor: pointer;
+    background: var(--main-gradient-color);
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: var(--main-boxshadow);
+}
+
+._button__container ._button__loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 5px;
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--white-color);
+}
+
+@keyframes loading_animation {
+    0% {
+        transform: rotate(0)
+    }
+    100% {
+        transform: rotate(360deg)
+    }
+}
+
+._button__container ._button__loading__icon {
+    font-size: 20px;
+    margin-right: 3px;
+    animation: loading_animation 0.35s ease-in-out infinite;
+}
+
+._button__container ._button__success__icon, ._button__failed__icon {
+    font-size: 20px;
+}
+            
+._button__container ._button__icon {
+    font-size: 20px;
+    color: var(--white-color);
+}
+
+._button__container ._button__text {
+    font-size: 15.5px;
+    color: var(--white-color);
+    margin-top: 2px;
+}
+
+
+@keyframes bubble_animation {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0.5;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0;
+    }
+}
+
+._button__container ._button__bubble {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background: var(--white-color);
+    animation: bubble_animation;
+    animation-duration: var(--animate-duration);
+    animation-timing-function: ease-out;
+}
+    
