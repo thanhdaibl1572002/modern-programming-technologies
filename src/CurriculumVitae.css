@@ -15,6 +15,7 @@
 @media (max-width: 851px) {
     ._cv__forms {
         width: 100%;
+        min-height: 100vh;
         height: fit-content;
     }
 }

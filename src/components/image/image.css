@@ -12,6 +12,17 @@
     position: relative;
 }
 
+@media (max-width: 851px) {
+    ._image__container {
+        height: 75vh;
+    }
+
+    ._image__container ._select {
+        width: 280px !important;
+        height: 420px !important;
+    }
+}
+
 ._image__container ._label {
     font-size: 12.5px;
     text-transform: capitalize;

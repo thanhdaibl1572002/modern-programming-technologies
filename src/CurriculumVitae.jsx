@@ -438,7 +438,7 @@ const CurriculumVitae = () => {
                                 <TextArea
                                     key={field.name}
                                     width='100%'
-                                    height='200px'
+                                    height={screenSize > 850 ? '200px' : '38vh'}
                                     textAreaWidth='100%'
                                     textAreaHeight='100%'
                                     borderRadius={5}

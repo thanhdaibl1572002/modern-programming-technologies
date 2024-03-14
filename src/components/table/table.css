@@ -12,6 +12,12 @@
     position: relative;
 }
 
+@media (max-width: 851px) {
+    ._table__container {
+        height: 75vh;
+    }
+}
+
 ._table__container label {
     font-size: 12.5px;
     text-transform: capitalize;
