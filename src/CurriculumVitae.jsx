@@ -399,7 +399,7 @@ const CurriculumVitae = () => {
                                     rows={field.values}
                                     label={field.label}
                                     onChange={handleTableChange}
-                                    errorMessage={field.error}
+                                    // errorMessage={field.error}
                                 />
                             )
                         case 'date':
