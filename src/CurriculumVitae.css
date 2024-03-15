@@ -34,6 +34,10 @@
     ._cv__prev__next {
         width: 100%;
     }
+
+    ._cv__data ._title h1{
+        font-size: 23px !important;
+    }
 }
 
 ._cv__data {

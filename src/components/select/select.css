@@ -22,6 +22,7 @@
     z-index: 1000;
     max-height: 205px;
     overflow-y: scroll;
+    border-radius: 5px;
 }
 
 ._select__container ._select__list li {

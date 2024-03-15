@@ -66,7 +66,7 @@ const Select = ({
                 boxShadow={boxShadow}
                 bubbleColor={bubbleColor}
             />
-            {isOpen && (
+            {isOpen && options && options.length > 0 && (
                 <ul className='_select__list' style={{ fontSize: optionTextSize, width: optionWidth }}>
                     {options.map((option, optionIndex) => (
                         <li key={optionIndex} data-value={JSON.stringify({ label: option.label, value: option.value })} onClick={handleClick}>
