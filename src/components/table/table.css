@@ -95,13 +95,17 @@
     border: 1px solid rgba(39, 142, 255, 0.2);
     background: var(--white-color);
     overflow: hidden;
-    max-width: calc(510px / 5);
+    /* max-width: calc(510px / 5); */
 }
 
 ._table__container ._table__content table tbody td input {
     width: 100%;
     padding: 10px 8px;
     min-width: 105px;
+}
+
+._table__container ._table__content table tbody td input[type="month"] {
+    max-width: 170px;
 }
 
 ._table__container ._table__content:hover ._table__tool {
