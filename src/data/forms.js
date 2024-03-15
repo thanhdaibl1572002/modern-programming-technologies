@@ -17,27 +17,27 @@ let forms = [
         {
             id: 7, name: 'birthPlace', label: 'Nơi sinh', type: 'select-group', error: 'Vui lòng chọn đầy đủ thông tin',
             values: [
-                { name: 'ward', label: 'Chọn phường / xã', value: '' },
-                { name: 'district', label: 'Chọn quận / huyện', value: '' },
-                { name: 'province', label: 'Chọn tỉnh / thành phố', value: '' },
+                { name: 'ward', label: 'Chọn phường / xã', value: '', id: '' },
+                { name: 'district', label: 'Chọn quận / huyện', value: '', id: '' },
+                { name: 'province', label: 'Chọn tỉnh / thành phố', value: '', id: '' },
             ],
             selects: [
-                [{ name: 'ward', label: 'Chọn phường / xã', value: '' }],
-                [{ name: 'district', label: 'Chọn quận / huyện', value: '' }],
-                [{ name: 'province', value: '', label: 'Chọn tỉnh / thành phố'}, { name: 'province', value: 'Cần Thơ', label: 'Cần Thơ'}],
+                [{ name: 'ward', label: 'Chọn phường / xã', value: '', id: '' }],
+                [{ name: 'district', label: 'Chọn quận / huyện', value: '', id: '' }],
+                [{ name: 'province', value: '', label: 'Chọn tỉnh / thành phố', id: ''}, ...provinces],
             ]
         },
         {
             id: 8, name: 'hometown', label: 'Quê quán', type: 'select-group', error: 'Vui lòng chọn đầy đủ thông tin',
             values: [
-                { name: 'ward', label: 'Chọn phường / xã', value: '' },
-                { name: 'district', label: 'Chọn quận / huyện', value: '' },
-                { name: 'province', label: 'Chọn tỉnh / thành phố', value: '' },
+                { name: 'ward', label: 'Chọn phường / xã', value: '', id: '' },
+                { name: 'district', label: 'Chọn quận / huyện', value: '', id: '' },
+                { name: 'province', label: 'Chọn tỉnh / thành phố', value: '', id: '' },
             ],
             selects: [
-                [{ name: 'ward', label: 'Chọn phường / xã', value: '' }],
-                [{ name: 'district', label: 'Chọn quận / huyện', value: '' }],
-                [{ name: 'province', value: '', label: 'Chọn tỉnh / thành phố'}],
+                [{ name: 'ward', label: 'Chọn phường / xã', value: '', id: '' }],
+                [{ name: 'district', label: 'Chọn quận / huyện', value: '', id: '' }],
+                [{ name: 'province', value: '', label: 'Chọn tỉnh / thành phố', id: ''}, ...provinces],
             ]
         },
     ],
@@ -46,30 +46,30 @@ let forms = [
             id: 9, name: 'permanentResidence', label: 'Nơi đăng ký hộ khẩu thường trú', type: 'select-group', error: 'Không được để trống',
             textField: { placeholder: 'vd: Số 123, đường Trần Quang Khải', label: 'Số nhà, tên đường', type: 'text' },
             values: [
-                { name: 'street', label: 'Số nhà, tên đường', value: '' },
-                { name: 'ward', label: 'Chọn phường / xã', value: '' },
-                { name: 'district', label: 'Chọn quận / huyện', value: '' },
-                { name: 'province', label: 'Chọn tỉnh / thành phố', value: '' },
+                { name: 'street', label: 'Số nhà, tên đường', value: '', id: '' },
+                { name: 'ward', label: 'Chọn phường / xã', value: '', id: '' },
+                { name: 'district', label: 'Chọn quận / huyện', value: '', id: '' },
+                { name: 'province', label: 'Chọn tỉnh / thành phố', value: '', id: '' },
             ],
             selects: [
-                [{ name: 'ward', label: 'Chọn phường / xã', value: '' }],
-                [{ name: 'district', label: 'Chọn quận / huyện', value: '' }],
-                [{ name: 'province', value: '', label: 'Chọn tỉnh / thành phố'}],
+                [{ name: 'ward', label: 'Chọn phường / xã', value: '', id: '' }],
+                [{ name: 'district', label: 'Chọn quận / huyện', value: '', id: '' }],
+                [{ name: 'province', value: '', label: 'Chọn tỉnh / thành phố', id: ''}, ...provinces],
             ]
         },
         {
             id: 10, name: 'currentResidence', label: 'Nơi ở hiện nay', type: 'select-group', error: 'Không được để trống',
             textField: { placeholder: 'vd: Số 123, đường Trần Quang Khải', label: 'Số nhà, tên đường', type: 'text' },
             values: [
-                { name: 'street', label: 'Số nhà, tên đường', value: '' },
-                { name: 'ward', label: 'Chọn phường / xã', value: '' },
-                { name: 'district', label: 'Chọn quận / huyện', value: '' },
-                { name: 'province', label: 'Chọn tỉnh / thành phố', value: '' },
+                { name: 'street', label: 'Số nhà, tên đường', value: '', id: '' },
+                { name: 'ward', label: 'Chọn phường / xã', value: '', id: '' },
+                { name: 'district', label: 'Chọn quận / huyện', value: '', id: '' },
+                { name: 'province', label: 'Chọn tỉnh / thành phố', value: '', id: '' },
             ],
             selects: [
-                [{ name: 'ward', label: 'Chọn phường / xã', value: '' }],
-                [{ name: 'district', label: 'Chọn quận / huyện', value: '' }],
-                [{ name: 'province', value: '', label: 'Chọn tỉnh / thành phố'}],
+                [{ name: 'ward', label: 'Chọn phường / xã', value: '', id: '' }],
+                [{ name: 'district', label: 'Chọn quận / huyện', value: '', id: '' }],
+                [{ name: 'province', value: '', label: 'Chọn tỉnh / thành phố', id: ''}, ...provinces],
             ]
         },
         { id: 11, name: 'ethnicity', label: 'Dân tộc', placeholder: 'vd: Kinh, Khrme', type: 'text', regex: /^.+$/, error: 'Không được để trống', },

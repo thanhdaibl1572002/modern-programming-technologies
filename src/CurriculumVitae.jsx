@@ -15,6 +15,8 @@ import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import provinces from './data/provinces'
 import forms from './data/forms'
+import axios from 'axios'
+import { getDistrictsFromAPI, updateDistricts, updateWards } from './utils'
 
 const CurriculumVitae = () => {
 
@@ -23,11 +25,49 @@ const CurriculumVitae = () => {
 
     const [isValidate, setIsValidate] = useState(true)
 
-    // const [birthPlaceProvince, setBirthPlaceProvince] = useState(undefined)
-    // const [birthPlacedistrict, setBirthPlacedistrict] = useState('')
-    // const [birthPlaceWards, setBirthPlaceWards] = useState([])
-
     const screenSize = useMediaScreen()
+
+    const birthPlaceProvinceId = formData[0][6].values[2].id
+    const birthPlaceDistrictId = formData[0][6].values[1].id
+    const hometownProvinceId = formData[0][7].values[2].id
+    const hometownDistrictId = formData[0][7].values[1].id
+    const permanentResidenceProvinceId = formData[1][0].values[3].id
+    const permanentResidenceDistrictId  = formData[1][0].values[2].id
+    const currentResidenceProvinceId = formData[1][1].values[3].id
+    const currentResidenceDistrictId  = formData[1][1].values[2].id
+
+    useEffect(() => {
+        updateDistricts(formData, setFormData, 'birthPlace', birthPlaceProvinceId)
+    }, [birthPlaceProvinceId])
+
+    useEffect(() => {
+        updateWards(formData, setFormData, 'birthPlace', birthPlaceDistrictId)
+    }, [birthPlaceDistrictId])
+
+    useEffect(() => {
+        updateDistricts(formData, setFormData, 'hometown', hometownProvinceId)
+    }, [hometownProvinceId])
+
+    useEffect(() => {
+        updateWards(formData, setFormData, 'hometown', hometownDistrictId)
+    }, [hometownDistrictId])
+
+    useEffect(() => {
+        updateDistricts(formData, setFormData, 'permanentResidence', permanentResidenceProvinceId)
+    }, [permanentResidenceProvinceId])
+
+    useEffect(() => {
+        updateWards(formData, setFormData, 'permanentResidence', permanentResidenceDistrictId)
+    }, [permanentResidenceDistrictId])
+
+    useEffect(() => {
+        updateDistricts(formData, setFormData, 'currentResidence', currentResidenceProvinceId)
+    }, [currentResidenceProvinceId])
+
+    useEffect(() => {
+        updateWards(formData, setFormData, 'currentResidence', currentResidenceDistrictId)
+    }, [currentResidenceDistrictId])
+
 
     const validateCurrentForm = () => {
         const updatedCurrentForm = formData[currentForm].map(
@@ -166,6 +206,7 @@ const CurriculumVitae = () => {
             })
         }
     }
+
 
     // const handleRadioGroupChange = (radioData) => {
     //     const { groupName, value } = radioData

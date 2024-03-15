@@ -69,7 +69,11 @@ const Select = ({
             {isOpen && options && options.length > 0 && (
                 <ul className='_select__list' style={{ fontSize: optionTextSize, width: optionWidth }}>
                     {options.map((option, optionIndex) => (
-                        <li key={optionIndex} data-value={JSON.stringify({ label: option.label, value: option.value })} onClick={handleClick}>
+                        <li 
+                            key={optionIndex} 
+                            data-value={JSON.stringify({ label: option.label, value: option.value, id: option.id })} 
+                            onClick={handleClick}
+                        >
                             {option.label}
                         </li>
                     ))}
