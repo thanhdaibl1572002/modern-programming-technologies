@@ -2,7 +2,7 @@
 
 ._image__container {
     width: 100%;
-    height: 420px;
+    height: 400px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -48,6 +48,7 @@
     height: 360px;
     border: 2px dashed rgba(39, 142, 255, 0.5);
     cursor: pointer;
+    overflow: hidden;
 }
 
 ._image__container ._select input[type="file"] {

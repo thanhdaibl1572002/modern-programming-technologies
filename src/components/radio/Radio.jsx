@@ -62,7 +62,7 @@ const Radio = ({
                         height: checkBoxSize,
                         fontSize: checkSize,
                         background: checked ? mainGradientColor : whiteColor,
-                        border: `1px solid ${checked ? getColorLevel(mainColor, 5) : mainColor}`,
+                        border: `1px solid ${mainColor}`,
                     }}
                 >
                     {checked && <IoCheckmark />}

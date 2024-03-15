@@ -23,8 +23,6 @@ const RadioGroup = ({
         onChange && onChange({ groupName: groupName, value: value })
     }
 
-    console.log(selectedValue)
-
     return (
         <div className='_radio__group__container' style={{ width: width }}>
             {label && <span className='_label' style={{ background: labelBackground, color: labelColor }}>{label}</span>}

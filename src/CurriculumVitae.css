@@ -2,7 +2,7 @@
 
 ._cv__forms {
     width: 800px;
-    height: 540px;
+    height: 585px;
     padding: 20px;
     background: var(--white-color);
     flex-direction: column;
@@ -42,6 +42,24 @@
     flex-wrap: wrap;
     column-gap: 15px;
     align-items: flex-start;
+}
+
+._cv__data ._title {
+    width: 100%;
+    margin-bottom: 10px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+._cv__data ._title h1 {
+    font-size: 25px;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+._cv__data ._title ._tool {
+    align-items: center;
+    column-gap: 10px;
 }
 
 ._cv__pagination {

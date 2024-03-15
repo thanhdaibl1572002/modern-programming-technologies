@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import './CurriculumVitae.css'
-import { PiArrowFatLeft, PiArrowFatRight, PiCaretDoubleLeftLight, PiCaretDoubleRight, PiCheckFatLight, PiCheckSquareOffset, PiListChecks } from 'react-icons/pi'
-import { blackGradientColor } from './variables'
+import { PiArrowFatLeft, PiArrowFatRight, PiCheckFatLight, PiListChecks } from 'react-icons/pi'
+import { GoShield, GoShieldCheck } from 'react-icons/go'
+import { blackGradientColor, blueGradientColor, redGradientColor } from './variables'
 import TextField from './components/textfield/TextField'
 import Table from './components/table/Table'
 import TextArea from './components/text-area/TextArea'
@@ -10,8 +11,10 @@ import Button from './components/button/Button'
 import Image from './components/image/Image'
 import RadioGroup from './components/radio-group/RadioGroup'
 import useMediaScreen from './hooks/useMediaScreen'
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
-const forms = [
+let forms = [
     [
         { id: 1, name: 'managementAgency', label: 'Cơ quan quản lý viên chức', placeholder: 'vd: UBND Quận 5, TP.HCM', type: 'text', regex: /^.+$/, error: 'Không được để trống' },
         { id: 2, name: 'staffCode', label: 'Số hiệu viên chức', placeholder: 'vd: 01.001', type: 'text', regex: /^.+$/, error: 'Không được để trống' },
@@ -154,13 +157,13 @@ const forms = [
         { id: 17, name: 'additionalPosition', label: 'Chức danh (chức vụ) kiêm nhiệm', placeholder: 'vd: Trưởng khoa CNTT', type: 'text', regex: /^.+$/, error: 'Không được để trống', },
         { id: 18, name: 'mainJobAssigned', label: 'Công việc chính được giao', placeholder: 'vd: Giảng dạy ngành kỹ thuật phần mềm', type: 'text', regex: /^.+$/, error: 'Không được để trống', },
         { id: 19, name: 'jobTitle', label: 'Chức danh nghề nghiệp viên chức', placeholder: 'vd: Tiến Sĩ, Thạc sĩ', type: 'text', regex: /^.+$/, error: 'Không được để trống' },
-        { id: 20, name: 'jobCode', label: 'Mã số chức danh', placeholder: 'vd: 01.001', type: 'text', regex: /^.+$/, error: 'Không được để trống' },
+        { id: 20, name: 'jobCode', label: 'Mã số chức danh', placeholder: 'vd: 01.001', type: 'number', regex: /^.+$/, error: 'Không được để trống' },
         { id: 21, name: 'salaryRank', label: 'Bậc lương', placeholder: 'vd: 1 - 12', type: 'number', regex: /^.+$/, error: 'Không được để trống' },
-        { id: 22, name: 'salaryCoefficient', label: 'Hệ số', placeholder: 'vd: 5.75', type: 'text', regex: /^.+$/, error: 'Không được để trống' },
-        { id: 23, name: 'enjoymentDate', label: 'Ngày hưởng', type: 'date', regex: /^.+$/, error: 'Không được để trống' },
-        { id: 24, name: 'positionAllowance', label: 'Phụ cấp chức danh', placeholder: 'vd: 1000000', type: 'number', regex: /^.+$/, error: 'Không được để trống' },
+        { id: 22, name: 'salaryCoefficient', label: 'Hệ số', placeholder: 'vd: 5.75', type: 'number', regex: /^.+$/, error: 'Không được để trống' },
     ],
     [
+        { id: 23, name: 'enjoymentDate', label: 'Ngày hưởng', type: 'date', regex: /^.+$/, error: 'Không được để trống' },
+        { id: 24, name: 'positionAllowance', label: 'Phụ cấp chức danh', placeholder: 'vd: 1000000', type: 'number', regex: /^.+$/, error: 'Không được để trống' },
         { id: 25, name: 'otherAllowance', label: 'Phụ cấp khác', placeholder: 'vd: 500000', type: 'text', regex: /^.+$/, error: 'Không được để trống' },
         { id: 26, name: 'educationLevel', label: 'Trình độ giáo dục phổ thông', placeholder: 'vd: Tốt nghiệp cấp 3', type: 'text', regex: /^.+$/, error: 'Không được để trống' },
         { id: 27, name: 'highestProfessionalLevel', label: 'Trình độ chuyên môn cao nhất', placeholder: 'vd: TSKH, TS, Th.s, cử nhân, kỹ sư, cao đẳng', type: 'text', regex: /^.+$/, error: 'Không được để trống' },
@@ -169,10 +172,10 @@ const forms = [
         { id: 30, name: 'professionalCompetence', label: 'Trình độ nghiệp vụ theo chuyên ngành', placeholder: 'vd: Giảng dạy ngành kỹ thuật phần mềm', type: 'text', regex: /^.+$/, error: 'Không được để trống' },
         { id: 31, name: 'foreignLanguage', label: 'Ngoại ngữ', placeholder: 'vd: Tiếng Anh TOEIC 990', type: 'text', regex: /^.+$/, error: 'Không được để trống' },
         { id: 32, name: 'computerSkills', label: 'Tin học', placeholder: 'vd: TS, Ths, ĐH, Kỹ năng 01 đến Kỹ năng 15', type: 'text', regex: /^.+$/, error: 'Không được để trống' },
-        { id: 33, name: 'partyJoinDate', label: 'Ngày vào Đảng Cộng sản Việt Nam', type: 'date', regex: /^.+$/, error: 'Không được để trống' },
-        { id: 34, name: 'officialPartyDate', label: 'Ngày chính thức vào Đảng', type: 'date', regex: /^.+$/, error: 'Không được để trống' },
     ],
     [
+        { id: 33, name: 'partyJoinDate', label: 'Ngày vào Đảng Cộng sản Việt Nam', type: 'date', regex: /^.+$/, error: 'Không được để trống' },
+        { id: 34, name: 'officialPartyDate', label: 'Ngày chính thức vào Đảng', type: 'date', regex: /^.+$/, error: 'Không được để trống' },
         { id: 35, name: 'politicalSocialOrganization', label: 'Tham gia tổ chức  chính trị - xã hội', placeholder: 'vd: Đoàn thanh niên Cộng Sản HCM', type: 'text', regex: /^.+$/, error: 'Không được để trống' },
         { id: 36, name: 'enlistmentDate', label: 'Ngày nhập ngũ', type: 'date', regex: /^.+$/, error: 'Không được để trống' },
         { id: 37, name: 'demobilizationDate', label: 'Ngày xuất ngũ', type: 'date', regex: /^.+$/, error: 'Không được để trống' },
@@ -181,12 +184,12 @@ const forms = [
         { id: 40, name: 'academicRank', label: 'Học hàm được phong', placeholder: 'vd: Giáo sư, Phó giáo sư', type: 'text', regex: /^.+$/, error: 'Không được để trống' },
         { id: 41, name: 'workStrength', label: 'Sở trường công tác', placeholder: 'vd: Giảng dạy, Quản lý nhân sự', type: 'text', regex: /^.+$/, error: 'Không được để trống' },
         { id: 42, name: 'commendation', label: 'Khen thưởng', placeholder: 'vd: Khen thưởng lao động tiên tiến', type: 'text', regex: /^.+$/, error: 'Không được để trống' },
+    ],
+    [
         { id: 43, name: 'disciplinaryAction', label: 'Kỷ luật', placeholder: 'vd: Kỷ luật về vắng mặt', type: 'text', regex: /^.+$/, error: 'Không được để trống' },
         { id: 44, name: 'healthStatus', label: 'Tình trạng sức khoẻ', placeholder: 'vd: Sức khỏe tốt, Bị bệnh tim', type: 'text', regex: /^.+$/, error: 'Không được để trống' },
         { id: 45, name: 'height', label: 'Chiều cao', placeholder: 'vd: 170', type: 'number', regex: /^.+$/, error: 'Không được để trống' },
         { id: 46, name: 'weight', label: 'Cân nặng', placeholder: 'vd: 65', type: 'number', regex: /^.+$/, error: 'Không được để trống' },
-    ],
-    [
         { id: 47, name: 'bloodType', label: 'Nhóm máu', placeholder: 'vd: A, B, AB, O', type: 'text', regex: /^.+$/, error: 'Không được để trống' },
         { id: 48, name: 'disabilityRank', label: 'Là thương binh hạng', placeholder: 'vd: Thương binh hạng 2', type: 'text', regex: /^.+$/, error: 'Không được để trống' },
         { id: 49, name: 'policyFamily', label: 'Là con gia đình chính sách', placeholder: 'vd: Con thương binh, Con liệt sĩ', type: 'text', regex: /^.+$/, error: 'Không được để trống' },
@@ -196,7 +199,7 @@ const forms = [
     ],
     [
         {
-            id: 53, name: 'educationalMajors', label: 'Đào tạo chuyên môn nghiệp vụ, lý luận chính trị, ngoại ngữ, tin học', type: 'table', error: 'Không được để trống',
+            id: 53, name: 'educationalMajors', label: 'Đào tạo chuyên môn nghiệp vụ', type: 'table', error: 'Không được để trống',
             values: [['', '', '', '', '', '']],
             columns: [
                 { name: 'schoolName', label: 'Tên Trường', placeholder: 'vd: ĐH Sài Gòn' },
@@ -269,6 +272,10 @@ const forms = [
     ]
 ]
 
+forms = forms.map(fields => fields.map(field => { 
+    return {...field, status: true }
+}))
+
 const CurriculumVitae = () => {
 
     // useEffect(() => {
@@ -286,46 +293,99 @@ const CurriculumVitae = () => {
 
     const [currentForm, setCurrentForm] = useState(0)
     const [formData, setFormData] = useState(forms)
-    const [formError, setFormError] = useState({})
+
+    const [isValidate, setIsValidate] = useState(true)
 
     const screenSize = useMediaScreen()
+
+    const validateCurrentForm = () => {
+        const updatedCurrentForm = formData[currentForm].map(
+            field => {
+                switch(field.type) {
+                    case 'text':
+                        let textFieldStatus = true
+                        if (!field.regex.test(field.value) || !field.value) textFieldStatus = false
+                        return {...field, status: textFieldStatus}
+                    case 'text-area':
+                        let textAreaStatus = true
+                        if (!field.regex.test(field.value) || !field.value) textAreaStatus = false
+                        return {...field, status: textAreaStatus}
+                    case 'image':
+                        let imageStatus = true
+                        if (!field.value) imageStatus = false
+                        return {...field, status: imageStatus}
+                    case 'date':
+                        let dateFieldStatus = true
+                        if (!field.regex.test(field.value) || !field.value) dateFieldStatus = false
+                        return {...field, status: dateFieldStatus}
+                    case 'select-group':
+                        return {...field, status: field.values.every(value => value.value !== '')}
+                    case 'table':
+                        return {...field, status: field.values.every(value => value.every(elm => elm !== ''))}
+                    default:
+                        return field
+                }
+            }
+        )
+        return updatedCurrentForm
+    }
 
     const handleTextFieldChange = (event) => {
         const { name, value } = event.target
         const updatedForms = formData.map(
             form => form.map(
-                field => field.name === name && (field.type === 'text' || field.type === 'date') ? { ...field, value: value } : field
+                field => field.name === name 
+                && (field.type === 'text' || field.type === 'date' || field.type === 'month' ||  field.type === 'number') 
+                ? { ...field, value: value, status: field.regex.test(value) } 
+                : field
+            )
+        )
+        setFormData(updatedForms)
+    }
+
+    const handleTextAreaChange = (event) => {
+        const { name, value } = event.target
+        const updatedForms = formData.map(
+            form => form.map(
+                field => field.name === name && field.type === 'text-area' 
+                ? { ...field, value: value, status: field.regex.test(value) } 
+                : field
             )
         )
         setFormData(updatedForms)
     }
 
     const handleSelectGroupChange = (selectData) => {
-        const { groupName, values } = selectData
+        const { groupName, isMissing, values } = selectData
         const updatedForms = formData.map(
             form => form.map(
-                field => field.name === groupName && field.type === 'select-group' ? { ...field, values: [...values] } : field
+                field => field.name === groupName && field.type === 'select-group' 
+                ? { ...field, values: [...values], status: !isMissing } 
+                : field
             )
         )
         setFormData(updatedForms)
     }
 
     const handleRadioGroupChange = (radioData) => {
-        console.log(radioData)
         const { groupName, value } = radioData
         const updatedForms = formData.map(
             form => form.map(
-                field => field.name === groupName && field.type === 'radio-group' ? { ...field, value: value } : field
+                field => field.name === groupName && field.type === 'radio-group' 
+                ? { ...field, value: value } 
+                : field
             )
         )
         setFormData(updatedForms)
     }
 
     const handleTableChange = (tableData) => {
-        const { tableName, values } = tableData
+        const { tableName, isMissing, values } = tableData
         const updatedForms = formData.map(
             form => form.map(
-                field => field.name === tableName && field.type === 'table' ? { ...field, values: values } : field
+                field => field.name === tableName && field.type === 'table' 
+                ? { ...field, values: values, status: !isMissing } 
+                : field
             )
         )
         setFormData(updatedForms)
@@ -335,25 +395,88 @@ const CurriculumVitae = () => {
         const { imageName, value } = imageData
         const updatedForms = formData.map(
             form => form.map(
-                field => field.name === imageName && field.type === 'image' ? { ...field, value: value } : field
+                field => field.name === imageName && field.type === 'image' 
+                ? { ...field, value: value } 
+                : field
             )
         )
         setFormData(updatedForms)
     }
 
     const handleNext = () => {
-        setCurrentForm(prevForm => Math.min(prevForm + 1, forms.length - 1))
+        const updatedCurrentForm = validateCurrentForm()
+        if (isValidate) 
+            setFormData(() => {
+                const updatedForms = [...formData]
+                updatedForms.splice(currentForm, 1, updatedCurrentForm)
+                if (updatedForms[currentForm].every(field => field.status)) 
+                    setCurrentForm(prevForm => Math.min(prevForm + 1, forms.length - 1))
+                return updatedForms
+            })
+        else 
+            setCurrentForm(prevForm => Math.min(prevForm + 1, forms.length - 1))
     }
 
     const handlePrev = () => {
         setCurrentForm(prevForm => Math.max(prevForm - 1, 0))
     }
 
-    console.log(formData)
+    const handleComplete = () => {
+        const updatedCurrentForm = validateCurrentForm()
+        if (isValidate) {
+            setFormData(() => {
+                const updatedForms = [...formData]
+                updatedForms.splice(currentForm, 1, updatedCurrentForm)
+                if (updatedForms[currentForm].every(field => field.status)) 
+                    setCurrentForm(prevForm => Math.min(prevForm + 1, forms.length - 1))
+
+                if (updatedForms.every(fields => fields.every(field => field.status))) {
+                    toast.success('Đăng ký thành công')
+                } else {
+                    toast.error('Vui lòng điền đầy đủ thông tin')
+                }
+                return updatedForms
+            })
+        }
+        else {
+            toast.info('Hoàn thành thử nghiệm')
+        }
+    }
+
+    const isShowErrorMessage = (fieldName) => {
+        return formData[currentForm].find(field => field.name === fieldName).status === false
+    }
 
     return (
         <div className='_cv__forms'>
             <div className='_cv__data'>
+                <div className='_title'>
+                    <h1>Sơ yếu lý lịch viên chức</h1>
+                    <div className='_tool'>
+                        <ToastContainer 
+                            position='top-center'
+                            autoClose={5000}
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                            closeOnClick
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            pauseOnHover
+                            theme='light'
+                        />
+                        <Button
+                            width={35}
+                            height={35}
+                            textWeight={400}
+                            icon={isValidate ? <GoShieldCheck /> : <GoShield />}
+                            iconSize={20}
+                            background={isValidate ? blueGradientColor : redGradientColor}
+                            onClick={() => setIsValidate(!isValidate)}
+                            title='Bật tắt chế độ validate'
+                        />
+                    </div>
+                </div>
                 {formData && formData.length > 0 && formData[currentForm].map(field => {
                     switch (field.type) {
                         case 'radio-group':
@@ -367,7 +490,6 @@ const CurriculumVitae = () => {
                                     height={47}
                                     groupName={field.name}
                                     onChange={handleRadioGroupChange}
-                                    // errorMessage={'Không được bỏ trống'}
                                 />
                             )
                         case 'select-group':
@@ -387,7 +509,7 @@ const CurriculumVitae = () => {
                                     textField={field.textField}
                                     onChange={handleSelectGroupChange}
                                     groupName={field.name}
-                                    // errorMessage={field.error}
+                                    errorMessage={isShowErrorMessage(field.name) && field.error}
                                 />
                             )
                         case 'table':
@@ -399,7 +521,7 @@ const CurriculumVitae = () => {
                                     rows={field.values}
                                     label={field.label}
                                     onChange={handleTableChange}
-                                    // errorMessage={field.error}
+                                    errorMessage={isShowErrorMessage(field.name) && field.error}
                                 />
                             )
                         case 'date':
@@ -414,7 +536,7 @@ const CurriculumVitae = () => {
                                     onChange={handleTextFieldChange}
                                     name={field.name}
                                     value={field.value}
-                                    // errorMessage={field.error}
+                                    errorMessage={isShowErrorMessage(field.name) && field.error}
                                 />
                             )
                         case 'text':
@@ -430,25 +552,41 @@ const CurriculumVitae = () => {
                                     onChange={handleTextFieldChange}
                                     name={field.name}
                                     value={field.value}
-                                    // errorMessage={field.error}
+                                    errorMessage={isShowErrorMessage(field.name) && field.error}
                                 />
                             )
+                            case 'number':
+                                return (
+                                    <TextField
+                                        key={field.name}
+                                        width={screenSize > 850 ? 'calc(50% - 7.5px)' : '100%'}
+                                        inputHeight={47}
+                                        borderRadius={5}
+                                        placeholder={field.placeholder}
+                                        label={field.label}
+                                        type={field.type}
+                                        onChange={handleTextFieldChange}
+                                        name={field.name}
+                                        value={field.value}
+                                        errorMessage={isShowErrorMessage(field.name) && field.error}
+                                    />
+                                )
                         case 'text-area':
                             return (
                                 <TextArea
                                     key={field.name}
                                     width='100%'
-                                    height={screenSize > 850 ? '200px' : '38vh'}
+                                    height={screenSize > 850 ? '200px' : 'calc(37.5vh - 6px)'}
                                     textAreaWidth='100%'
                                     textAreaHeight='100%'
                                     borderRadius={5}
                                     placeholder={field.placeholder}
                                     label={field.label}
                                     type={field.type}
-                                    onChange={handleTextFieldChange}
+                                    onChange={handleTextAreaChange}
                                     name={field.name}
                                     value={field.value}
-                                    // errorMessage={field.error}
+                                    errorMessage={isShowErrorMessage(field.name) && field.error}
                                 />
                             )
                         case 'image':
@@ -459,7 +597,7 @@ const CurriculumVitae = () => {
                                     name={field.name}
                                     value={field.value}
                                     onChange={handleImageChange}
-                                    // errorMessage={field.error}
+                                    errorMessage={isShowErrorMessage(field.name) && field.error}
                                 />
                             )
                         default:
@@ -491,7 +629,7 @@ const CurriculumVitae = () => {
                             icon={<PiCheckFatLight />}
                             iconSize={18}
                             iconPosition={'right'}
-                        // onClick={handleNext}
+                            onClick={handleComplete}
                         />
                     )}
                     {currentForm < formData.length - 1 && (

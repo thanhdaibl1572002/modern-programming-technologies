@@ -51,7 +51,7 @@ const Image = ({
           <img src={preview} alt='' />
         ) : (
           <>
-            <span><b>Chọn</b> ảnh hoặc <b>Kéo</b> và <b>Thả</b> vào đây</span>
+            <span><b>Chọn</b> hoặc <b>Kéo</b> và <b>Thả</b> ảnh vào đây</span>
             <IoCloudUploadOutline />
           </>
         )}
