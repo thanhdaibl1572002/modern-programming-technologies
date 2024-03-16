@@ -34,6 +34,17 @@ const CurriculumVitae = () => {
     const currentResidenceDistrictId = formData[1][1].values[2].id
 
     useEffect(() => {
+        const handleBeforeUnload = (e) => {
+          e.preventDefault()
+          e.returnValue = ''
+        }
+        window.addEventListener('beforeunload', handleBeforeUnload)
+        return () => {
+          window.removeEventListener('beforeunload', handleBeforeUnload)
+        }
+    }, [])
+
+    useEffect(() => {
         updateDistricts(formData, setFormData, 'birthPlace', birthPlaceProvinceId)
     }, [birthPlaceProvinceId])
 

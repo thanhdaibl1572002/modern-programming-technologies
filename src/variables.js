@@ -60,16 +60,3 @@ export const getColorLevel = (color, level = 100) => {
             iconSize={25}
             onClick={e => e.preventDefault()}
         /> */}
-
-    // useEffect(() => {
-    //     const handleBeforeUnload = (e) => {
-    //       e.preventDefault()
-    //       e.returnValue = ''
-    //     }
-
-    //     window.addEventListener('beforeunload', handleBeforeUnload)
-
-    //     return () => {
-    //       window.removeEventListener('beforeunload', handleBeforeUnload)
-    //     }
-    // }, [])
