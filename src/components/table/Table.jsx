@@ -17,8 +17,6 @@ const Table = ({
 
     const [tableRows, setTableRows] = useState(rows)
 
-    // console.log(tableRows)
-
     const handleAddRow = () => {
         setTableRows(() => {
             const newTableRows = [...tableRows, Array(columns.length).fill('')]

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './CurriculumVitae.css'
-import { PiArrowFatLeft, PiArrowFatRight, PiCheckFatLight, PiListChecks } from 'react-icons/pi'
+import { PiArrowFatLeft, PiArrowFatRight, PiCheckFatLight } from 'react-icons/pi'
 import { GoShield, GoShieldCheck } from 'react-icons/go'
 import { blackGradientColor, blueGradientColor, redGradientColor } from './variables'
 import TextField from './components/textfield/TextField'
@@ -11,12 +11,9 @@ import Button from './components/button/Button'
 import Image from './components/image/Image'
 import RadioGroup from './components/radio-group/RadioGroup'
 import useMediaScreen from './hooks/useMediaScreen'
-import { toast, ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-import provinces from './data/provinces'
+import { toast } from 'react-toastify'
 import forms from './data/forms'
-import axios from 'axios'
-import { getDistrictsFromAPI, updateDistricts, updateWards } from './utils'
+import { updateDistricts, updateWards } from './utils'
 
 const CurriculumVitae = () => {
 
@@ -32,9 +29,9 @@ const CurriculumVitae = () => {
     const hometownProvinceId = formData[0][7].values[2].id
     const hometownDistrictId = formData[0][7].values[1].id
     const permanentResidenceProvinceId = formData[1][0].values[3].id
-    const permanentResidenceDistrictId  = formData[1][0].values[2].id
+    const permanentResidenceDistrictId = formData[1][0].values[2].id
     const currentResidenceProvinceId = formData[1][1].values[3].id
-    const currentResidenceDistrictId  = formData[1][1].values[2].id
+    const currentResidenceDistrictId = formData[1][1].values[2].id
 
     useEffect(() => {
         updateDistricts(formData, setFormData, 'birthPlace', birthPlaceProvinceId)
@@ -67,6 +64,20 @@ const CurriculumVitae = () => {
     useEffect(() => {
         updateWards(formData, setFormData, 'currentResidence', currentResidenceDistrictId)
     }, [currentResidenceDistrictId])
+
+    // const dataFlat = formData.flat().map(field => ({
+    //     name: field.name,
+    //     label: field.label,
+    //     value: field.values ? field.values : field.value,
+    // }))
+
+    // const newDataFlat = dataFlat.map(field => 
+    //     field.name === 'birthPlace' || field.name === 'hometown' || field.name === 'permanentResidence' || field.name === 'currentResidence'
+    //     ? {...field, value: field.value.map(v => v.value).join(' - ') }
+    //     : field
+    // )
+
+    // console.log(newDataFlat)
 
 
     const validateCurrentForm = () => {
@@ -116,12 +127,12 @@ const CurriculumVitae = () => {
 
     const handleTextFieldChange = (event) => {
         const { name, value } = event.target
-    
+
         const fieldIndex = formData.findIndex(form =>
             form.some(field => field.name === name &&
                 (field.type === 'text' || field.type === 'date' || field.type === 'month' || field.type === 'number'))
         )
-    
+
         if (fieldIndex !== -1) {
             setFormData(prevFormData => {
                 const updatedForms = [...prevFormData]
@@ -136,7 +147,7 @@ const CurriculumVitae = () => {
             })
         }
     }
-    
+
 
     // const handleTextAreaChange = (event) => {
     //     const { name, value } = event.target
@@ -152,11 +163,11 @@ const CurriculumVitae = () => {
 
     const handleTextAreaChange = (event) => {
         const { name, value } = event.target
-    
+
         const fieldIndex = formData.findIndex(form =>
             form.some(field => field.name === name && field.type === 'text-area')
         )
-    
+
         if (fieldIndex !== -1) {
             setFormData(prevFormData => {
                 const updatedForms = [...prevFormData]
@@ -170,7 +181,7 @@ const CurriculumVitae = () => {
             })
         }
     }
-    
+
 
     // const handleSelectGroupChange = (selectData) => {
     //     const { groupName, isMissing, values } = selectData
@@ -182,17 +193,16 @@ const CurriculumVitae = () => {
     //                 : field
     //         )
     //     )
-
     //     setFormData(updatedForms)
     // }
 
     const handleSelectGroupChange = (selectData) => {
         const { groupName, isMissing, values } = selectData
-    
+
         const groupIndex = formData.findIndex(fields =>
             fields.some(field => field.name === groupName && field.type === 'select-group')
         )
-    
+
         if (groupIndex !== -1) {
             setFormData(prevFormData => {
                 const updatedForms = [...prevFormData]
@@ -222,11 +232,11 @@ const CurriculumVitae = () => {
 
     const handleRadioGroupChange = (radioData) => {
         const { groupName, value } = radioData
-    
+
         const fieldIndex = formData.findIndex(form =>
             form.some(field => field.name === groupName && field.type === 'radio-group')
         )
-    
+
         if (fieldIndex !== -1) {
             setFormData(prevFormData => {
                 const updatedForms = [...prevFormData]
@@ -240,7 +250,7 @@ const CurriculumVitae = () => {
             })
         }
     }
-    
+
 
     // const handleTableChange = (tableData) => {
     //     const { tableName, isMissing, values } = tableData
@@ -256,11 +266,11 @@ const CurriculumVitae = () => {
 
     const handleTableChange = (tableData) => {
         const { tableName, isMissing, values } = tableData
-    
+
         const fieldIndex = formData.findIndex(form =>
             form.some(field => field.name === tableName && field.type === 'table')
         )
-    
+
         if (fieldIndex !== -1) {
             setFormData(prevFormData => {
                 const updatedForms = [...prevFormData]
@@ -274,7 +284,7 @@ const CurriculumVitae = () => {
             })
         }
     }
-    
+
 
     // const handleImageChange = (imageData) => {
     //     const { imageName, value } = imageData
@@ -290,11 +300,11 @@ const CurriculumVitae = () => {
 
     const handleImageChange = (imageData) => {
         const { imageName, value } = imageData
-    
+
         const fieldIndex = formData.findIndex(form =>
             form.some(field => field.name === imageName && field.type === 'image')
         )
-    
+
         if (fieldIndex !== -1) {
             setFormData(prevFormData => {
                 const updatedForms = [...prevFormData]
@@ -308,7 +318,7 @@ const CurriculumVitae = () => {
             })
         }
     }
-    
+
 
     const handleNext = () => {
         const updatedCurrentForm = validateCurrentForm()
@@ -334,9 +344,6 @@ const CurriculumVitae = () => {
             setFormData(() => {
                 const updatedForms = [...formData]
                 updatedForms.splice(currentForm, 1, updatedCurrentForm)
-                if (updatedForms[currentForm].every(field => field.status))
-                    setCurrentForm(prevForm => Math.min(prevForm + 1, forms.length - 1))
-
                 if (updatedForms.every(fields => fields.every(field => field.status))) {
                     toast.success('Đăng ký thành công')
                 } else {
@@ -360,18 +367,6 @@ const CurriculumVitae = () => {
                 <div className='_title'>
                     <h1>Sơ yếu lý lịch viên chức</h1>
                     <div className='_tool'>
-                        <ToastContainer
-                            position='top-center'
-                            autoClose={5000}
-                            hideProgressBar={false}
-                            newestOnTop={false}
-                            closeOnClick
-                            rtl={false}
-                            pauseOnFocusLoss
-                            draggable
-                            pauseOnHover
-                            theme='light'
-                        />
                         <Button
                             width={35}
                             height={35}

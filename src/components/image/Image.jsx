@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import './image.css'
-import TestImage from '../test.jpeg'
 import { mainColor, whiteColor } from '../../variables'
 import { IoCloudUploadOutline } from 'react-icons/io5'
+import { toast } from 'react-toastify'
 
 const Image = ({
   label,
@@ -18,9 +18,24 @@ const Image = ({
 
   const handleFileSelect = (file) => {
     const fileUrl = URL.createObjectURL(file)
-    setPreview(fileUrl)
-    onChange && onChange({ imageName: name, value: fileUrl })
+    const img = document.createElement('img')
+    img.src = fileUrl
+
+    img.onload = function (event) {
+      const width = this.naturalWidth
+      const height = this.naturalHeight
+      const aspectRatio = (width / height).toFixed(2)
+      const expectedAspectRatio = (4 / 6).toFixed(2)
+      if (aspectRatio === expectedAspectRatio) {
+        setPreview(fileUrl)
+        onChange && onChange({ imageName: name, value: fileUrl })
+        toast.success('Tải ảnh hồ sơ thành công')
+      } else {
+        toast.error('Vui lòng chọn ảnh theo tỉ lệ 4 x 6')
+      }
+    }
   }
+
 
   const handleDragOver = (e) => e.preventDefault()
 

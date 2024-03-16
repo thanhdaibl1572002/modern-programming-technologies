@@ -26,8 +26,6 @@ const SelectGroup = ({
 
     const [selectedOptions, setSelectedOptions] = useState({ groupName: groupName, isMissing: true, values: values })
 
-    // console.log(selectedOptions)
-
     const handleSelectChange = (selectedOption) => {
         setSelectedOptions(() => {
             const updateSelectedValues = selectedOptions.values.map(

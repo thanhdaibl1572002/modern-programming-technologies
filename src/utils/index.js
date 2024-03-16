@@ -1,4 +1,5 @@
-import axios from "axios"
+import axios from 'axios'
+import * as XLSX from 'xlsx'
 
 export const getDistrictsFromAPI = async (provinceId) => {
     if (provinceId) {
@@ -6,7 +7,7 @@ export const getDistrictsFromAPI = async (provinceId) => {
         const districts = res.data.results
         const convertDistricts = districts.map(item => ({
             name: 'district',
-            label: item.district_name                    ,
+            label: item.district_name,
             value: item.district_name,
             id: item.district_id
         }))
@@ -23,7 +24,7 @@ export const getWardsFromAPI = async (districtId) => {
         const wards = res.data.results
         const convertWards = wards.map(item => ({
             name: 'ward',
-            label: item.ward_name                    ,
+            label: item.ward_name,
             value: item.ward_name,
             id: item.ward_id
         }))
@@ -42,8 +43,8 @@ export const updateDistricts = async (formData, setFormData, fieldName, province
             const updatedForms = [...prevFormData]
             updatedForms[fieldIndex] = updatedForms[fieldIndex].map(field => (
                 field.name === fieldName
-                ? { ...field, selects: field.selects.map((select, selectIndex) => selectIndex === 1 ? newDistricts : select) }
-                : field
+                    ? { ...field, selects: field.selects.map((select, selectIndex) => selectIndex === 1 ? newDistricts : select) }
+                    : field
             ))
             return updatedForms
         })
@@ -58,10 +59,30 @@ export const updateWards = async (formData, setFormData, fieldName, districtId) 
             const updatedForms = [...prevFormData]
             updatedForms[fieldIndex] = updatedForms[fieldIndex].map(field => (
                 field.name === fieldName
-                ? { ...field, selects: field.selects.map((select, selectIndex) => selectIndex === 0 ? newWards : select) }
-                : field
+                    ? { ...field, selects: field.selects.map((select, selectIndex) => selectIndex === 0 ? newWards : select) }
+                    : field
             ))
             return updatedForms
         })
     }
+}
+
+
+export const exportToExcel = (data) => {
+    const flatData = data.map(item => {
+        if (Array.isArray(item.value)) {
+            return item.value.reduce((acc, val) => {
+                acc[val.name] = val.value
+                return acc
+            }, {})
+        }
+        return { [item.name]: item.value }
+    })
+
+    const ws = XLSX.utils.json_to_sheet(flatData)
+
+    const wb = XLSX.utils.book_new()
+    XLSX.utils.book_append_sheet(wb, ws, 'Data')
+
+    XLSX.writeFile(wb, 'data.xlsx')
 }
