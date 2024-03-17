@@ -13,4 +13,4 @@ Vào trình duyệt và truy cập địa chỉ [http://localhost:3000](http://l
 
 # Bài tập này được Deploy lên Vercel
 
-Địa chỉ trang web: [bl-curriculum-vitae.vercel.app](BL Curriculum Vitae)
+Địa chỉ trang web: [BL Curriculum Vitae](https://bl-curriculum-vitae.vercel.app/)
