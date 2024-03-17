@@ -1,7 +1,7 @@
 import { memo, useState, useRef } from 'react'
 import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5'
 import { getColorLevel, mainColor, whiteColor } from '../../variables'
-import './textfield.css'
+import './text-field.css'
 
 const TextField= ({
   width = 'fit-content',

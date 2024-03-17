@@ -3,7 +3,7 @@ import Select from '../select/Select'
 import './select-group.css'
 import { useState } from 'react'
 import { mainColor, whiteColor } from '../../variables'
-import TextField from '../textfield/TextField'
+import TextField from '../text-field/TextField'
 
 const SelectGroup = ({
     width = '100%',

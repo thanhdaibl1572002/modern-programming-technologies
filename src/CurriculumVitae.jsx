@@ -3,7 +3,7 @@ import './CurriculumVitae.css'
 import { PiArrowFatLeft, PiArrowFatRight, PiCheckFatLight } from 'react-icons/pi'
 import { GoShield, GoShieldCheck } from 'react-icons/go'
 import { blackGradientColor, blueGradientColor, redGradientColor } from './variables'
-import TextField from './components/textfield/TextField'
+import TextField from './components/text-field/TextField'
 import Table from './components/table/Table'
 import TextArea from './components/text-area/TextArea'
 import SelectGroup from './components/select-group/SelectGroup'
@@ -33,16 +33,16 @@ const CurriculumVitae = () => {
     const currentResidenceProvinceId = formData[1][1].values[3].id
     const currentResidenceDistrictId = formData[1][1].values[2].id
 
-    useEffect(() => {
-        const handleBeforeUnload = (e) => {
-          e.preventDefault()
-          e.returnValue = ''
-        }
-        window.addEventListener('beforeunload', handleBeforeUnload)
-        return () => {
-          window.removeEventListener('beforeunload', handleBeforeUnload)
-        }
-    }, [])
+    // useEffect(() => {
+    //     const handleBeforeUnload = (e) => {
+    //       e.preventDefault()
+    //       e.returnValue = ''
+    //     }
+    //     window.addEventListener('beforeunload', handleBeforeUnload)
+    //     return () => {
+    //       window.removeEventListener('beforeunload', handleBeforeUnload)
+    //     }
+    // }, [])
 
     useEffect(() => {
         updateDistricts(formData, setFormData, 'birthPlace', birthPlaceProvinceId)
@@ -97,8 +97,12 @@ const CurriculumVitae = () => {
                 switch (field.type) {
                     case 'text':
                         let textFieldStatus = true
-                        if (!field.regex.test(field.value) || !field.value) textFieldStatus = false
+                        if ((field.regex && !field.regex.test(field.value)) || !field.value) textFieldStatus = false
                         return { ...field, status: textFieldStatus }
+                    case 'radio-group': 
+                        let radioStatus = true
+                        if (!field.value) radioStatus = false
+                        return { ...field, status: radioStatus }
                     case 'text-area':
                         let textAreaStatus = true
                         if (!field.regex.test(field.value) || !field.value) textAreaStatus = false
@@ -253,7 +257,7 @@ const CurriculumVitae = () => {
                 const updatedForms = [...prevFormData]
                 updatedForms[fieldIndex] = updatedForms[fieldIndex].map(field => {
                     if (field.name === groupName && field.type === 'radio-group') {
-                        return { ...field, value: value }
+                        return { ...field, value: value, status: value.trim().length > 0 }
                     }
                     return field
                 })
@@ -372,6 +376,8 @@ const CurriculumVitae = () => {
         return formData[currentForm].find(field => field.name === fieldName).status === false
     }
 
+    console.log(formData)
+
     return (
         <div className='_cv__forms'>
             <div className='_cv__data'>
@@ -403,6 +409,7 @@ const CurriculumVitae = () => {
                                     height={47}
                                     groupName={field.name}
                                     onChange={handleRadioGroupChange}
+                                    errorMessage={isShowErrorMessage(field.name) && field.error}
                                 />
                             )
                         case 'select-group':
