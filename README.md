@@ -1,4 +1,4 @@
-# Bài tập nhỏ môn học CÁC CÔNG NGHỆ LẬP TRÌNH HIỆN ĐẠI
+# Bài tập môn CÁC CÔNG NGHỆ LẬP TRÌNH HIỆN ĐẠI
 
 Tìm hiểu về React.js.
 
